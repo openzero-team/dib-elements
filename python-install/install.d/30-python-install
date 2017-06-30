@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-0} -gt 0 ]; then
+    set -x
+fi
+set -eu
+set -o pipefail
+
+# Install specified version of Python from source code
+
+PYTHON_INSTALL=Python-${DIB_PYTHON_INSTALL_VERSION:="2.7.13"}
+
+cd /usr/local/src
+wget https://www.python.org/ftp/python/${DIB_PYTHON_INSTALL_VERSION}/${PYTHON_INSTALL}.tgz
+tar xfz ${PYTHON_INSTALL}.tgz
+cd ${PYTHON_INSTALL}
+./configure
+make
+make install
+python --version
+
